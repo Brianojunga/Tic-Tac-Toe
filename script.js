@@ -1,7 +1,23 @@
+const body = document.querySelector(".container");
+const form = document.querySelector(".form");
+const box1 = document.querySelector('.box1');
+const box2 = document.querySelector('.box2');
+const box3 = document.querySelector('.box3');
+const box4 = document.querySelector('.box4');
+const box5 = document.querySelector('.box5');
+const box6 = document.querySelector('.box6');
+const box7 = document.querySelector('.box7');
+const box8 = document.querySelector('.box8');
+const box9 = document.querySelector('.box9');
+
+
+
+
+
 function gameBoard(){
     rows = 3;
     columns = 3;
-board = []
+    board = []
 
     for(let i = 0; i < rows; i++){
         board[i] = []
@@ -16,8 +32,8 @@ board = []
         if(board[row][column] === null){
             board[row][column] = player;
             return true}
-            else{
-                return false
+        else{
+            return false
     } 
     }
 
@@ -68,17 +84,19 @@ function WinOrDraw(board){
 
 
 
-   function gameController(){
+   function gameController(player1, player2){
     const player = [
         {
-            name : "first player's",
+            name : player1 ||"first player's",
             mark : "X"
         },
         {
-            name : "second player's",
+            name : player2 || "second player's",
             mark : "O"
         }
     ]
+
+    getElements()
 
     let activePlayer = player[0];
     let gameOver = false;
@@ -127,21 +145,55 @@ function WinOrDraw(board){
     return Object.assign ({}, board, {getActivePlayer}, {playGame})
    }
 
+   function getElements(){
+    const container = document.createElement('div');
+    container.classList.add("div-container");
+
+    for(let i = 1; i <= 9; i++){
+         let div = document.createElement("div");
+         div.classList.add(`box`)
+         div.classList.add(`box${i}`)
+         container.appendChild(div);
+    }
+
+    return body.appendChild(container);
+}
+
+let firstPlayer;
+let secondPlayer;
+let game;
+
+form.addEventListener("submit", (e) =>{
+    e.preventDefault();
+    form.style.display = "none";
+    firstPlayer = document.querySelector("#player1").value;
+    secondPlayer = document.querySelector("#player2").value;
+    game = gameController(firstPlayer, secondPlayer);
+})
    
+ box1.addEventListener("click", () => {
+    game.playRound(0, 0)
+    box1.textContent = game.getBoard()[0][0]
+ })
+
+
 
 //const playBoard = gameBoard()
-const game = gameController()
-console.log(game.playGame(2, 0))
-console.log(game.playGame(1, 0))
-console.log(game.playGame(0, 0))
-console.log(game.playGame(0, 1))
-console.log(game.playGame(1, 1))
-console.log(game.playGame(2, 2))
-console.log(game.playGame(1, 2))
-console.log(game.playGame(0, 2))
-console.log(game.playGame(2, 1))
+ //const game = gameController()
+// console.log(game.playGame(2, 0))
+// console.log(game.playGame(1, 0))
+// console.log(game.playGame(0, 0))
+// console.log(game.playGame(0, 1))
+// console.log(game.playGame(1, 1))
+// console.log(game.playGame(2, 2))
+// console.log(game.playGame(1, 2))
+// console.log(game.playGame(0, 2))
+// console.log(game.playGame(2, 1))
 
-console.log(game.getBoard())
+// console.log(game.getBoard())
 
-const playgame = gameController()
-console.log(playgame.getBoard())
+//const playgame = gameController()
+//console.log(playgame.getBoard())
+
+
+
