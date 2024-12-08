@@ -1,14 +1,6 @@
 const body = document.querySelector(".container");
 const form = document.querySelector(".form");
-const box1 = document.querySelector('.box1');
-const box2 = document.querySelector('.box2');
-const box3 = document.querySelector('.box3');
-const box4 = document.querySelector('.box4');
-const box5 = document.querySelector('.box5');
-const box6 = document.querySelector('.box6');
-const box7 = document.querySelector('.box7');
-const box8 = document.querySelector('.box8');
-const box9 = document.querySelector('.box9');
+const para = document.querySelector(".win-message")
 
 
 
@@ -109,12 +101,13 @@ function WinOrDraw(board){
 
     const board = gameBoard()
 
+    para.textContent = `it's ${getActivePlayer().name} turn`
+
     function playGame(row, column){
         if (gameOver) return;
 
         const winDraw = WinOrDraw(board.getBoard())
 
-        console.log(`it's ${getActivePlayer().name} turn`)
 
         if(board.addPlayerMark(row, column, getActivePlayer().mark)){
 
@@ -122,10 +115,14 @@ function WinOrDraw(board){
 
             if(winner === "X"){
                 gameOver = true;
+                para.textContent = `${player[0].name} wins the game`
+                para.style.color = "#1b3d2f"
                 return `${player[0].name} wins the game`
             }
             if (winner === "O"){
                 gameOver = true;
+                para.textContent = `${player[1].name} wins the game`;
+                para.style.color = "#1b3d2f";
                 return `${player[1].name} wins the game` 
             }
         } 
@@ -136,10 +133,14 @@ function WinOrDraw(board){
 
         if(winDraw.tieGame()){
            gameOver = true;
-           return "Its a tie"
+           para.textContent = "Its a tie";
+           para.style.color = "#504800";
+            return "Its a tie"
          }
 
         toggleActivePlayer(player);
+
+        para.textContent = `it's ${getActivePlayer().name} turn`
     }
 
     return Object.assign ({}, board, {getActivePlayer}, {playGame})
@@ -161,39 +162,83 @@ function WinOrDraw(board){
 
 let firstPlayer;
 let secondPlayer;
-let game;
+//let game;
 
 form.addEventListener("submit", (e) =>{
     e.preventDefault();
     form.style.display = "none";
     firstPlayer = document.querySelector("#player1").value;
     secondPlayer = document.querySelector("#player2").value;
-    game = gameController(firstPlayer, secondPlayer);
+    const game = gameController(firstPlayer, secondPlayer);
+
+
+    const box1 = document.querySelector('.box1');
+    const box2 = document.querySelector('.box2');
+    const box3 = document.querySelector('.box3');
+    const box4 = document.querySelector('.box4');
+    const box5 = document.querySelector('.box5');
+    const box6 = document.querySelector('.box6');
+    const box7 = document.querySelector('.box7');
+    const box8 = document.querySelector('.box8');
+    const box9 = document.querySelector('.box9');
+
+     box1.addEventListener("click", () => {
+        game.playGame(0, 0)
+        box1.textContent = game.getBoard()[0][0]
+     })
+    
+     box2.addEventListener("click", () => {
+        game.playGame(0, 1)
+        box2.textContent = game.getBoard()[0][1]
+     })
+
+     box3.addEventListener("click", () => {
+        game.playGame(0, 2)
+        box3.textContent = game.getBoard()[0][2]
+     })
+
+     box4.addEventListener("click", () => {
+        game.playGame(1, 0)
+        box4.textContent = game.getBoard()[1][0]
+     })
+
+     box5.addEventListener("click", () => {
+        game.playGame(1, 1)
+        box5.textContent = game.getBoard()[1][1]
+     })
+
+     box6.addEventListener("click", () => {
+        game.playGame(1, 2)
+        box6.textContent = game.getBoard()[1][2]
+     })
+
+     box7.addEventListener("click", () => {
+        game.playGame(2, 0)
+        box7.textContent = game.getBoard()[2][0]
+     })
+
+    box8.addEventListener("click", () => {
+        game.playGame(2, 1)
+        box8.textContent = game.getBoard()[2][1]
+     })
+     box9.addEventListener("click", () => {
+        game.playGame(2, 2)
+        box9.textContent = game.getBoard()[2][2]
+     })
+
+
+
+
+
+     
+    
 })
+
+
+
    
- box1.addEventListener("click", () => {
-    game.playRound(0, 0)
-    box1.textContent = game.getBoard()[0][0]
- })
+ 
 
-
-
-//const playBoard = gameBoard()
- //const game = gameController()
-// console.log(game.playGame(2, 0))
-// console.log(game.playGame(1, 0))
-// console.log(game.playGame(0, 0))
-// console.log(game.playGame(0, 1))
-// console.log(game.playGame(1, 1))
-// console.log(game.playGame(2, 2))
-// console.log(game.playGame(1, 2))
-// console.log(game.playGame(0, 2))
-// console.log(game.playGame(2, 1))
-
-// console.log(game.getBoard())
-
-//const playgame = gameController()
-//console.log(playgame.getBoard())
 
 
 
