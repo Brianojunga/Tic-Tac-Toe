@@ -1,10 +1,14 @@
 const body = document.querySelector(".container");
 const form = document.querySelector(".form");
-const para = document.querySelector(".win-message")
+const para = document.querySelector(".player-turn");
+const modal = document.querySelector(".modal");
+const winPara = document.querySelector(".win-message");
+const reset = document.querySelector(".reset");
+const exit = document.querySelector(".exit");
 
 
 
-
+//the game board
 
 function gameBoard(){
     rows = 3;
@@ -33,6 +37,9 @@ function gameBoard(){
 }
 
 
+
+
+// win or draw function
 function WinOrDraw(board){
    function winGame(){
     for (let row of board){
@@ -74,8 +81,23 @@ function WinOrDraw(board){
     return {winGame, tieGame}
    }
 
+// get elements function
+   function getElements(){
+    const container = document.createElement('div');
+    container.classList.add("div-container");
+
+    for(let i = 1; i <= 9; i++){
+         let div = document.createElement("div");
+         div.classList.add(`box`)
+         div.classList.add(`box${i}`)
+         container.appendChild(div);
+    }
+
+    return body.appendChild(container);
+}
 
 
+ // this acts like the game referee
    function gameController(player1, player2){
     const player = [
         {
@@ -103,6 +125,18 @@ function WinOrDraw(board){
 
     para.textContent = `it's ${getActivePlayer().name} turn`
 
+    function reset(board){
+        for(let row = 0; row < board.length; row++){
+            for(let col = 0; col < board[row].length; col++)
+                board[row][col] = null;
+        }
+        gameOver = false;
+        activePlayer = player[0];
+        para.textContent = `it's ${getActivePlayer().name} turn`
+    }
+
+    
+
     function playGame(row, column){
         if (gameOver) return;
 
@@ -115,14 +149,19 @@ function WinOrDraw(board){
 
             if(winner === "X"){
                 gameOver = true;
-                para.textContent = `${player[0].name} wins the game`
-                para.style.color = "#1b3d2f"
+                para.textContent = ""
+                winPara.textContent = `${player[0].name} wins the game`
+                winPara.style.color = "#1b3d2f"
+                modal.showModal()
                 return `${player[0].name} wins the game`
             }
+
             if (winner === "O"){
                 gameOver = true;
-                para.textContent = `${player[1].name} wins the game`;
-                para.style.color = "#1b3d2f";
+                para.textContent = ""
+                winPara.textContent = `${player[1].name} wins the game`;
+                winPara.style.color = "#1b3d2f";
+                modal.showModal()
                 return `${player[1].name} wins the game` 
             }
         } 
@@ -133,36 +172,24 @@ function WinOrDraw(board){
 
         if(winDraw.tieGame()){
            gameOver = true;
-           para.textContent = "Its a tie";
-           para.style.color = "#504800";
+           para.textContent = ""
+           winPara.textContent = "Its a tie";
+           winPara.style.color = "#504800";
+           modal.showModal()
             return "Its a tie"
          }
 
         toggleActivePlayer(player);
 
         para.textContent = `it's ${getActivePlayer().name} turn`
+
     }
 
-    return Object.assign ({}, board, {getActivePlayer}, {playGame})
+    // return all functions defined
+    return Object.assign ({}, board, {getActivePlayer}, {playGame}, {reset})
+
    }
 
-   function getElements(){
-    const container = document.createElement('div');
-    container.classList.add("div-container");
-
-    for(let i = 1; i <= 9; i++){
-         let div = document.createElement("div");
-         div.classList.add(`box`)
-         div.classList.add(`box${i}`)
-         container.appendChild(div);
-    }
-
-    return body.appendChild(container);
-}
-
-let firstPlayer;
-let secondPlayer;
-//let game;
 
 form.addEventListener("submit", (e) =>{
     e.preventDefault();
@@ -181,6 +208,7 @@ form.addEventListener("submit", (e) =>{
     const box7 = document.querySelector('.box7');
     const box8 = document.querySelector('.box8');
     const box9 = document.querySelector('.box9');
+    const boxes = document.querySelectorAll(".box");
 
      box1.addEventListener("click", () => {
         game.playGame(0, 0)
@@ -226,13 +254,25 @@ form.addEventListener("submit", (e) =>{
         box9.textContent = game.getBoard()[2][2]
      })
 
+     reset.addEventListener("click", () => {
+        game.reset(game.getBoard())
+        boxes.forEach(box => box.textContent = "");
+        modal.close()  
+     })
 
+     exit.addEventListener("click", () => {
+       body.replaceChildren()
+        form.style.display = "block";
+        modal.close()
+     })    
 
-
-
-     
+     form.reset()
     
 })
+
+
+
+
 
 
 
