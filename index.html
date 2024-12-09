@@ -13,16 +13,27 @@
     <title>tic-tac-toe game</title>
 </head>
 <body>
-    <div class="container">
+
+    <div>
         <h1>Step Into the Tic-Tac-Toe Arena!</h1>
+        <p class="player-turn"></p>
         <form class="form">
             <input type="text" name="firstplayer" id="player1" placeholder="first player's name">
             <input type="text" name="secondplayer" id="player2" placeholder="second player's name">
             <button type="submit" id="submit">submit</button>
         </form>
-        <p class="player-turn"></p>
     </div>
-    <div class="win-message"></div>
+    <div class="container"></div>
+        
+    
+    <dialog class="modal" >
+        <p class="win-message"></p>
+        <div class="buttons">
+            <button class="reset">Reset</button>
+            <button class="exit">Exit</button>
+        </div>
+    </dialog>
+    
     <script src="script.js"></script> 
 </body>
 </html>
